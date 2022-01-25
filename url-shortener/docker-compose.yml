@@ -3,7 +3,7 @@ version: '3.9'
 services:
   pythonapp:
     container_name: pythonapp
-    image: pythonapp
+    image: amirmraei/pythonapp
     build: .
     ports:
       - "80:80"

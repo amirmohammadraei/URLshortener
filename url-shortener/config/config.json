@@ -1,0 +1,7 @@
+{
+    "port": 8080,
+    "url_expiration": 3600,
+    "database_server": "urlshortener@db:5432",
+    "database_name": "urlshortener",
+    "database_password": "urlshortener"
+}
