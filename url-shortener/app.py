@@ -1,17 +1,17 @@
-from crypt import methods
 from flask import Flask, request, redirect
 import string
 from random import choice
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
+import os
 
 
 app = Flask(__name__)
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://urlshortener:urlshortener@localhost:5432/urlshortener"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -24,6 +24,7 @@ class ShortUrls(db.Model):
     short_id = db.Column(db.String(20), nullable=False, unique=True)
     created_at = db.Column(db.DateTime(), default=datetime.now(), nullable=False)
 
+db.create_all()
 
 @app.route('/', methods=['GET', 'POST'])
 def url_shortener():
@@ -36,9 +37,16 @@ def url_shortener():
             db.session.add(new_url)
             db.session.commit()
         else:
-            short_id_obj = ShortUrls.query.filter(ShortUrls.original_url==request.form['u']).first().short_id
-            short_id = short_id_obj.short_id
-        return f'http://127.0.0.1:5000/{short_id}'
+            short_id_obj = ShortUrls.query.filter(ShortUrls.original_url==request.form['u']).first()
+            timedelta = datetime.now() - short_id_obj.created_at
+            if timedelta.seconds > 3600:
+                short_id = ''.join(choice(string.ascii_letters+string.digits) for _ in range(5))
+                short_id_obj.short_id = short_id
+                short_id_obj.created_at = datetime.now()
+                db.session.commit()
+            else:
+                short_id = short_id_obj.short_id
+        return f'http://localhost:80/{short_id}'
 
 
 @app.route('/<short_id>')
@@ -51,3 +59,7 @@ def redirect_url(short_id):
         return redirect(shorted_url_obj.original_url)
     except AttributeError:
         return 'url does not exist!'
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
