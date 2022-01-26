@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pythonapp
+data:
+  production-config.json: |
+    "port": 8080,
+    "url_expiration": 3600,
+    "port": 8080,
+    "url_expiration": 3600,
+    "postgres_user": "urlshortener",
+    "postgres_password": "urlshortener",
+    "postgres_address": "localhost"
+ 
