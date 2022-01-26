@@ -1,11 +1,12 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name: postgres-service
+  name: postgres
+  labels:
+    service: postgres
 spec:
   selector:
-    app: postgres-container
+    service: postgres
+  type: ClusterIP
   ports:
-    - protocol: TCP
-      port: 5432
-      targetPort: 5432
+  - port: 5432

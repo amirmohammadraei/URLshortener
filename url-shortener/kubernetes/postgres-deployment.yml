@@ -1,16 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  creationTimestamp: null
   labels:
     name: database
+  name: postgres
 spec:
+  progressDeadlineSeconds: 2147483647
   replicas: 1
   selector:
     matchLabels:
       service: postgres
   template:
     metadata:
+      creationTimestamp: null
       labels:
         service: postgres
     spec:
@@ -29,10 +32,14 @@ spec:
                 name: postgres-credentials
                 key: password
         volumeMounts:
-          - name: postgres-volume-mount
-            mountPath: /var/lib/postgresql/data
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-volume-mount
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
       volumes:
       - name: postgres-volume-mount
         persistentVolumeClaim:
           claimName: postgres-pvc
-      restartPolicy: Always

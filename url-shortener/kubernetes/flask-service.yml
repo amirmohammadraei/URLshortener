@@ -8,5 +8,8 @@ spec:
   selector:
     app: flask
   ports:
-  - port: 9090
-    targetPort: 5000
+    - protocol: TCP
+      port: 9090
+      targetPort: 5000
+  externalIPs:
+    - 192.168.0.10
