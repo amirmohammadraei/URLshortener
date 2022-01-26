@@ -1,19 +1,19 @@
-version: '3.9'
+version: '2'
 
 services:
   pythonapp:
     container_name: pythonapp
-    image: amirmraei/pythonapp
+    image: amirmraei/finalccproj
     build: .
     ports:
       - "80:80"
     environment:
-      - DATABASE_URL=postgresql://urlshortener:urlshortener@db:5432/urlshortener
+      - DATABASE_URL=postgresql://urlshortener:urlshortener@postgres:5432/urlshortener
     depends_on:
       - db
   
   db:
-    container_name: db
+    container_name: postgres
     image: postgres:12
     ports:
       - "5432:5432"
@@ -21,6 +21,7 @@ services:
       - POSTGRES_PASSWORD=urlshortener
       - POSTGRES_USER=urlshortener
       - POSTGRES_DB=urlshortener
+      - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - pgdata:/var/lib/postgresql/data
 
