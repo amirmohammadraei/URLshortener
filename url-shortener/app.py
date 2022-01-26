@@ -10,10 +10,12 @@ import json
 
 app = Flask(__name__)
 
-file = open('config/config.json')
-config_data = json.load(file)
+cfg_file = open('config/config.json')
+config_data = json.load(cfg_file)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://urlshortener:urlshortener@postgres:5432/urlshortener"
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
