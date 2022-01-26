@@ -13,9 +13,12 @@ app = Flask(__name__)
 cfg_file = open('config/config.json')
 config_data = json.load(cfg_file)
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://urlshortener:urlshortener@postgres:5432/urlshortener"
+POSTGRES_USER = os.environ.get('POSTGRES_USER')
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgres:5432/urlshortener'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://urlshortener:urlshortener@postgres:5432/urlshortener"
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -66,4 +69,4 @@ def redirect_url(short_id):
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=config_data['port'], debug=True)
+    app.run(host='0.0.0.0', debug=True)
