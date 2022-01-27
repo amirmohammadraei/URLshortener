@@ -53,7 +53,7 @@ def url_shortener():
                 db.session.commit()
             else:
                 short_id = short_id_obj.short_id
-        return f'http://localhost:80/{short_id}'
+        return f'http://localhost:8080/{short_id}'
 
 
 @app.route('/<short_id>')
