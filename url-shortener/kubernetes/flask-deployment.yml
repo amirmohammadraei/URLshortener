@@ -1,42 +1,20 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: "apps/v1"
+kind: "Deployment"
 metadata:
-  creationTimestamp: null
+  name: "flask-test"
+  namespace: "default"
   labels:
-    name: flask
-  name: flask
+    app: "flask-test"
 spec:
-  progressDeadlineSeconds: 2147483647
   replicas: 2
   selector:
     matchLabels:
-      app: flask
+      app: "flask-test"
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: flask
+        app: "flask-test"
     spec:
       containers:
-      - env:
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              key: user
-              name: postgres-credentials
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: password
-              name: postgres-credentials
-        image: docker.io/amirmraei/finalccproj
-        imagePullPolicy: Always
-        name: flask
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
+      - name: "flask-test"
+        image: "docker.io/amirmraei/finalccproj"

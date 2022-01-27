@@ -5,9 +5,7 @@ metadata:
 data:
   production-config.json: |
     "port": 8080,
-    "url_expiration": 3600,
-    "port": 8080,
-    "url_expiration": 3600,
+    "url_expiration": 60,
     "postgres_user": "urlshortener",
     "postgres_password": "urlshortener",
     "postgres_address": "localhost"

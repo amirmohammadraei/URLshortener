@@ -132,3 +132,5 @@ dmypy.json
 .vscode
 
 migrations
+ubuntu-pod-deployment.yaml
+ubuntu-pod-deployment.yaml

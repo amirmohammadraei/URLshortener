@@ -22,7 +22,7 @@ spec:
 
 ---
 apiVersion: "v1"
-kind: "Service"
+kind: Service
 metadata:
   name: "flask-test"
   namespace: "default"
